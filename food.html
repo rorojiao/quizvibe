@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Food Are You? - QuizVibe 🎯</title>
+<meta name="description" content="Are you pizza, sushi, or a taco? This fun personality quiz reveals which food matches your soul!">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f1a;color:#fff;min-height:100vh}
+.header{background:linear-gradient(135deg,#a18cd1,#fbc2eb);padding:24px;text-align:center}
+.header h1{font-size:2rem}
+.header a{color:#fff;text-decoration:none;opacity:.8;font-size:.9rem}
+.container{max-width:700px;margin:0 auto;padding:24px}
+.progress{background:rgba(255,255,255,.1);border-radius:20px;height:8px;margin-bottom:24px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,#a18cd1,#fbc2eb);transition:width .3s;border-radius:20px}
+.question-card{background:rgba(255,255,255,.05);border-radius:16px;padding:28px;margin-bottom:20px}
+.q-num{font-size:.85rem;opacity:.6;margin-bottom:8px}
+.q-text{font-size:1.2rem;margin-bottom:20px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 18px;cursor:pointer;transition:all .2s;font-size:1rem;color:#fff}
+.opt:hover{background:rgba(255,255,255,.15);border-color:rgba(161,140,209,.5)}
+.result{text-align:center;padding:40px 20px}
+.result .score{font-size:5rem}
+.result .label{font-size:1.8rem;margin:10px 0}
+.result .desc{opacity:.8;max-width:500px;margin:0 auto 20px;line-height:1.6}
+.share-btn{display:inline-block;background:#1da1f2;padding:12px 24px;border-radius:25px;color:#fff;text-decoration:none;font-weight:bold;margin:8px}
+.share-btn.wa{background:#25D366}
+.hidden{display:none}
+footer{text-align:center;padding:30px;opacity:.5;font-size:.8rem}
+footer a{color:#a78bfa;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header">
+<a href="index.html">← QuizVibe 🎯</a>
+<h1>🍕 What Food Are You?</h1>
+<p>10 questions to find your food twin</p>
+</div>
+<div class="container">
+<div class="progress"><div class="progress-bar" id="prog"></div></div>
+<div id="quiz"></div>
+<div id="result" class="result hidden"></div>
+</div>
+<footer><p>For entertainment only · <a href="https://etherscan.io/address/0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823">☕ Tip</a> · © 2026 QuizVibe</p></footer>
+<script>
+const questions=[
+{q:"It's Friday night. You're most likely:",o:["Having a big group hangout","At a trendy new restaurant","Cooking something at home","Grabbing fast food on an adventure"],t:["pizza","sushi","pasta","taco"]},
+{q:"Pick a color palette:",o:["Bright reds and yellows","Black, white, and minimalist","Warm earth tones","Vibrant and chaotic"],t:["pizza","sushi","pasta","taco"]},
+{q:"Your social style:",o:["The more the merrier!","Small, curated gatherings","Cozy nights with close friends","Spontaneous meetups anywhere"],t:["pizza","sushi","pasta","taco"]},
+{q:"Your morning routine:",o:["What routine? I wing it","Precise and intentional","Slow and comforting","Different every day"],t:["pizza","sushi","pasta","taco"]},
+{q:"Pick a music genre:",o:["Pop / Rock","Jazz / Lo-fi","Classical / Acoustic","Latin / World beats"],t:["pizza","sushi","pasta","taco"]},
+{q:"Your decorating style:",o:["Fun posters and string lights","Clean and minimal","Warm, rustic, and cozy","Eclectic mix of everything"],t:["pizza","sushi","pasta","taco"]},
+{q:"How do you handle problems?",o:["Rally the troops!","Analyze quietly, then act","Sleep on it with a cup of tea","Improvise and adapt"],t:["pizza","sushi","pasta","taco"]},
+{q:"Your ideal pet:",o:["A big goofy dog","A beautiful fish tank","A purring cat","A parrot that talks"],t:["pizza","sushi","pasta","taco"]},
+{q:"Pick a movie genre:",o:["Comedy","Thriller","Romance","Action / Adventure"],t:["pizza","sushi","pasta","taco"]},
+{q:"Your life motto:",o:["Good times with good people","Quality over quantity","Home is where the heart is","Life's too short to stay still"],t:["pizza","sushi","pasta","taco"]}
+];
+let cur=0,answers=[];
+const quiz=document.getElementById('quiz'),prog=document.getElementById('prog'),res=document.getElementById('result');
+function render(){
+if(cur>=questions.length){showResult();return}
+const q=questions[cur];
+prog.style.width=((cur/questions.length)*100)+'%';
+quiz.innerHTML=`<div class="question-card">
+<div class="q-num">Question ${cur+1} of ${questions.length}</div>
+<div class="q-text">${q.q}</div>
+<div class="options">${q.o.map((o,i)=>`<div class="opt" onclick="pick('${q.t[i]}')">${o}</div>`).join('')}</div>
+</div>`;
+}
+function pick(t){answers.push(t);cur++;render()}
+function showResult(){
+quiz.classList.add('hidden');res.classList.remove('hidden');prog.style.width='100%';
+const counts={pizza:0,sushi:0,pasta:0,taco:0};
+answers.forEach(a=>counts[a]++);
+const winner=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0][0];
+const results={
+pizza:{emoji:"🍕",title:"You're Pizza!",desc:"Universal, fun-loving, and always a crowd-pleaser! You bring people together and make every moment better. Everyone loves having you around — you're the life of the party and the ultimate comfort."},
+sushi:{emoji:"🍣",title:"You're Sushi!",desc:"Refined, elegant, and full of hidden depth. You value quality and precision. People might not understand you at first, but once they do, they're hooked. You're a rare and beautiful experience."},
+pasta:{emoji:"🍝",title:"You're Pasta!",desc:"Warm, comforting, and timeless. You're the person everyone turns to when they need a hug. Your warmth and reliability make you irreplaceable. Home isn't a place — it's wherever you are."},
+taco:{emoji:"🌮",title:"You're a Taco!",desc:"Bold, adventurous, and full of surprises! You pack a punch in everything you do. Life with you is never boring — you're colorful, spontaneous, and always bring the spice. Viva la vida!"}
+};
+const r=results[winner];
+res.innerHTML=`<div class="score">${r.emoji}</div>
+<div class="label">${r.title}</div><p class="desc">${r.desc}</p>
+<div>
+<a class="share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(r.title)}+${r.emoji}+Find+out+what+food+YOU+are+on+QuizVibe!&url=${encodeURIComponent(location.href)}" target="_blank">𝕏 Share</a>
+<a class="share-btn wa" href="https://wa.me/?text=${encodeURIComponent(r.title)}+${r.emoji}+${encodeURIComponent(location.href)}" target="_blank">WhatsApp</a>
+</div>
+<p style="margin-top:20px"><a href="index.html" style="color:#a18cd1">← More Quizzes</a></p>`;
+}
+render();
+</script>
+</body>
+</html>

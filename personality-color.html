@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Personality Color - QuizVibe 🎯</title>
+<meta name="description" content="Are you Red, Blue, Green, or Gold? Discover your personality color in this fun quiz!">
+<meta property="og:title" content="I got {color} on QuizVibe's Personality Color Test!">
+<meta property="og:description" content="Find your personality color! Take the quiz now.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f1a;color:#fff;min-height:100vh}
+.header{background:linear-gradient(135deg,#4facfe,#00f2fe);padding:24px;text-align:center}
+.header h1{font-size:2rem}
+.header a{color:#fff;text-decoration:none;opacity:.8;font-size:.9rem}
+.container{max-width:700px;margin:0 auto;padding:24px}
+.progress{background:rgba(255,255,255,.1);border-radius:20px;height:8px;margin-bottom:24px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,#4facfe,#00f2fe);transition:width .3s;border-radius:20px}
+.question-card{background:rgba(255,255,255,.05);border-radius:16px;padding:28px;margin-bottom:20px}
+.q-num{font-size:.85rem;opacity:.6;margin-bottom:8px}
+.q-text{font-size:1.2rem;margin-bottom:20px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 18px;cursor:pointer;transition:all .2s;font-size:1rem;color:#fff}
+.opt:hover{background:rgba(255,255,255,.15);border-color:rgba(79,172,254,.5)}
+.opt.selected{background:rgba(79,172,254,.2);border-color:#4facfe}
+.nav-btn{background:linear-gradient(135deg,#4facfe,#00f2fe);border:none;color:#fff;padding:14px 32px;border-radius:12px;font-size:1.1rem;cursor:pointer;margin-top:16px;transition:transform .2s}
+.nav-btn:hover{transform:scale(1.03)}
+.nav-btn:disabled{opacity:.4;cursor:default;transform:none}
+.result{text-align:center;padding:40px 20px}
+.result .score{font-size:5rem;font-weight:bold}
+.result .label{font-size:1.8rem;margin:10px 0}
+.result .desc{opacity:.8;max-width:500px;margin:0 auto 20px;line-height:1.6}
+.share-btn{display:inline-block;background:#1da1f2;padding:12px 24px;border-radius:25px;color:#fff;text-decoration:none;font-weight:bold;margin:8px}
+.share-btn.wa{background:#25D366}
+.hidden{display:none}
+footer{text-align:center;padding:30px;opacity:.5;font-size:.8rem}
+footer a{color:#a78bfa;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header">
+<a href="index.html">← QuizVibe 🎯</a>
+<h1>🎨 Your Personality Color</h1>
+<p>10 questions to reveal your true color</p>
+</div>
+<div class="container">
+<div class="progress"><div class="progress-bar" id="prog"></div></div>
+<div id="quiz"></div>
+<div id="result" class="result hidden"></div>
+</div>
+<footer><p>For entertainment only · <a href="https://etherscan.io/address/0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823">☕ Tip</a> · © 2026 QuizVibe</p></footer>
+<script>
+const questions=[
+{q:"At a party, you're most likely to:",o:["Lead the group and take charge","Have deep one-on-one conversations","Make sure everyone feels welcome","Organize the music and snacks"],t:["r","b","g","d"]},
+{q:"Your ideal weekend looks like:",o:["An adventurous outdoor activity","Reading or visiting a museum","Volunteering or helping friends","Planning and organizing your space"],t:["r","b","g","d"]},
+{q:"When facing a conflict, you tend to:",o:["Address it head-on immediately","Analyze all sides carefully","Seek compromise and harmony","Create a structured solution"],t:["r","b","g","d"]},
+{q:"Which word describes you best?",o:["Bold","Thoughtful","Caring","Responsible"],t:["r","b","g","d"]},
+{q:"Your dream job involves:",o:["Leading a team to victory","Researching and discovering","Teaching and nurturing others","Building systems that work perfectly"],t:["r","b","g","d"]},
+{q:"People come to you when they need:",o:["Motivation and energy","Wisdom and perspective","Emotional support","A practical plan"],t:["r","b","g","d"]},
+{q:"Your biggest frustration is:",o:["Slow progress and indecision","Shallow thinking","People being unkind","Chaos and disorganization"],t:["r","b","g","d"]},
+{q:"In a group project, you naturally:",o:["Take the lead","Come up with creative ideas","Keep team morale high","Create the timeline and checklist"],t:["r","b","g","d"]},
+{q:"Your ideal vacation:",o:["Extreme sports or a competitive event","Exploring historical cities solo","A retreat with close friends","A perfectly planned itinerary"],t:["r","b","g","d"]},
+{q:"Which quote resonates most?",o:["\"Just do it\" - Action over words","\"Knowledge is power\" - Understanding matters","\"Be the change\" - Kindness first","\"A place for everything\" - Order brings peace"],t:["r","b","g","d"]}
+];
+let cur=0,answers=[];
+const quiz=document.getElementById('quiz'),prog=document.getElementById('prog'),res=document.getElementById('result');
+function render(){
+if(cur>=questions.length){showResult();return}
+const q=questions[cur];
+prog.style.width=((cur/questions.length)*100)+'%';
+quiz.innerHTML=`<div class="question-card">
+<div class="q-num">Question ${cur+1} of ${questions.length}</div>
+<div class="q-text">${q.q}</div>
+<div class="options">${q.o.map((o,i)=>`<div class="opt" onclick="pick('${q.t[i]}')">${o}</div>`).join('')}</div>
+</div>`;
+}
+function pick(t){answers.push(t);cur++;render()}
+function showResult(){
+quiz.classList.add('hidden');res.classList.remove('hidden');prog.style.width='100%';
+const counts={r:0,b:0,g:0,d:0};
+answers.forEach(a=>counts[a]++);
+const winner=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0][0];
+const results={
+r:{emoji:"🔴",color:"Red",bg:"linear-gradient(135deg,#f5576c,#ff6b6b)",title:"Fiery Red!",desc:"You're a natural leader — bold, competitive, and action-oriented. You thrive on challenges and aren't afraid to take risks. Your energy is contagious and you inspire others to follow."},
+b:{emoji:"🔵",color:"Blue",bg:"linear-gradient(135deg,#4facfe,#667eea)",title:"Calm Blue!",desc:"You're thoughtful, analytical, and value deep understanding. You seek truth and meaning in everything. Your wisdom and creativity make you an incredible problem-solver."},
+g:{emoji:"🟢",color:"Green",bg:"linear-gradient(135deg,#43e97b,#38f9d7)",title:"Nurturing Green!",desc:"You're empathetic, harmonious, and people-oriented. You naturally create warmth and connection. Others feel safe and valued around you. You're the heart of any group."},
+d:{emoji:"🟡",color:"Gold",bg:"linear-gradient(135deg,#f6d365,#fda085)",title:"Structured Gold!",desc:"You're organized, reliable, and detail-oriented. You value tradition, planning, and responsibility. When things need to get done right, everyone turns to you."}
+};
+const r=results[winner];
+res.innerHTML=`<div class="score" style="background:${r.bg};-webkit-background-clip:text;-webkit-text-fill-color:transparent">${r.emoji}</div>
+<div class="label">${r.title}</div><p class="desc">Your personality color is <strong>${r.color}</strong>!<br><br>${r.desc}</p>
+<div>
+<a class="share-btn" href="https://twitter.com/intent/tweet?text=My+personality+color+is+${r.color}!+${r.emoji}+Find+yours+on+QuizVibe!&url=${encodeURIComponent(location.href)}" target="_blank">𝕏 Share</a>
+<a class="share-btn wa" href="https://wa.me/?text=My+personality+color+is+${r.color}!+${r.emoji}+${encodeURIComponent(location.href)}" target="_blank">WhatsApp</a>
+</div>
+<p style="margin-top:20px"><a href="index.html" style="color:#4facfe">← More Quizzes</a></p>`;
+}
+render();
+</script>
+</body>
+</html>

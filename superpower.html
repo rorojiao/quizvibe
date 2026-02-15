@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Your Superpower? - QuizVibe 🎯</title>
+<meta name="description" content="Discover your hidden superpower! Take this fun personality quiz to find out.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f1a;color:#fff;min-height:100vh}
+.header{background:linear-gradient(135deg,#f6d365,#fda085);padding:24px;text-align:center}
+.header h1{font-size:2rem}
+.header a{color:#fff;text-decoration:none;opacity:.8;font-size:.9rem}
+.container{max-width:700px;margin:0 auto;padding:24px}
+.progress{background:rgba(255,255,255,.1);border-radius:20px;height:8px;margin-bottom:24px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,#f6d365,#fda085);transition:width .3s;border-radius:20px}
+.question-card{background:rgba(255,255,255,.05);border-radius:16px;padding:28px;margin-bottom:20px}
+.q-num{font-size:.85rem;opacity:.6;margin-bottom:8px}
+.q-text{font-size:1.2rem;margin-bottom:20px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 18px;cursor:pointer;transition:all .2s;font-size:1rem;color:#fff}
+.opt:hover{background:rgba(255,255,255,.15);border-color:rgba(253,160,133,.5)}
+.result{text-align:center;padding:40px 20px}
+.result .score{font-size:5rem}
+.result .label{font-size:1.8rem;margin:10px 0}
+.result .desc{opacity:.8;max-width:500px;margin:0 auto 20px;line-height:1.6}
+.share-btn{display:inline-block;background:#1da1f2;padding:12px 24px;border-radius:25px;color:#fff;text-decoration:none;font-weight:bold;margin:8px}
+.share-btn.wa{background:#25D366}
+.hidden{display:none}
+footer{text-align:center;padding:30px;opacity:.5;font-size:.8rem}
+footer a{color:#a78bfa;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header">
+<a href="index.html">← QuizVibe 🎯</a>
+<h1>⚡ What's Your Superpower?</h1>
+<p>10 questions to discover your hidden power</p>
+</div>
+<div class="container">
+<div class="progress"><div class="progress-bar" id="prog"></div></div>
+<div id="quiz"></div>
+<div id="result" class="result hidden"></div>
+</div>
+<footer><p>For entertainment only · <a href="https://etherscan.io/address/0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823">☕ Tip</a> · © 2026 QuizVibe</p></footer>
+<script>
+const questions=[
+{q:"In a crisis, you instinctively:",o:["Take charge and act fast","Read the situation and people","Vanish and regroup","Think 10 steps ahead"],t:["str","tel","inv","time"]},
+{q:"People are often surprised by your:",o:["Incredible energy and stamina","Ability to know what they're thinking","Way of slipping in and out unnoticed","Uncanny predictions about the future"],t:["str","tel","inv","time"]},
+{q:"Your dream vacation:",o:["Climbing mountains or extreme sports","A meditation retreat","Exploring hidden places alone","Visiting ancient ruins and libraries"],t:["str","tel","inv","time"]},
+{q:"Pick a fictional hero:",o:["Superman / Wonder Woman","Professor X / Jean Grey","Invisible Woman / Batman","Doctor Strange / The Flash"],t:["str","tel","inv","time"]},
+{q:"Your biggest fear:",o:["Being powerless","Being misunderstood","Being exposed","Running out of time"],t:["str","tel","inv","time"]},
+{q:"In school, you excelled at:",o:["Sports and physical activities","Understanding people","Working independently","History and predicting trends"],t:["str","tel","inv","time"]},
+{q:"Your ideal way to help someone:",o:["Physically protect them","Understand and comfort them","Work behind the scenes","Warn them before trouble hits"],t:["str","tel","inv","time"]},
+{q:"Pick an element:",o:["Fire 🔥","Water 💧","Air 💨","Earth 🌍"],t:["str","tel","inv","time"]},
+{q:"Your friends rely on you for:",o:["Getting things done","Emotional wisdom","Keeping secrets","Strategic advice"],t:["str","tel","inv","time"]},
+{q:"If you could have one wish:",o:["Unlimited physical power","Understanding every mind","Complete freedom and privacy","Control over time itself"],t:["str","tel","inv","time"]}
+];
+let cur=0,answers=[];
+const quiz=document.getElementById('quiz'),prog=document.getElementById('prog'),res=document.getElementById('result');
+function render(){
+if(cur>=questions.length){showResult();return}
+const q=questions[cur];
+prog.style.width=((cur/questions.length)*100)+'%';
+quiz.innerHTML=`<div class="question-card">
+<div class="q-num">Question ${cur+1} of ${questions.length}</div>
+<div class="q-text">${q.q}</div>
+<div class="options">${q.o.map((o,i)=>`<div class="opt" onclick="pick('${q.t[i]}')">${o}</div>`).join('')}</div>
+</div>`;
+}
+function pick(t){answers.push(t);cur++;render()}
+function showResult(){
+quiz.classList.add('hidden');res.classList.remove('hidden');prog.style.width='100%';
+const counts={str:0,tel:0,inv:0,time:0};
+answers.forEach(a=>counts[a]++);
+const winner=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0][0];
+const results={
+str:{emoji:"💪",title:"Super Strength!",desc:"Your superpower is raw, unstoppable strength! You're a force of nature — brave, determined, and fiercely protective. When the world needs a hero who charges in without hesitation, that's you. Nothing can stand in your way."},
+tel:{emoji:"🧠",title:"Telepathy!",desc:"Your superpower is reading minds! You have an extraordinary gift for understanding people — their emotions, motivations, and unspoken thoughts. You're the ultimate empath, and your emotional intelligence is truly superhuman."},
+inv:{emoji:"👻",title:"Invisibility!",desc:"Your superpower is invisibility! You're the master of stealth and independence. You observe everything, move through the world on your own terms, and value your privacy deeply. The most powerful moves are the ones nobody sees coming."},
+time:{emoji:"⏳",title:"Time Control!",desc:"Your superpower is controlling time! You're a strategic genius who always thinks ahead. You see patterns others miss, plan for every contingency, and seem to know what's coming. Past, present, future — you navigate them all."}
+};
+const r=results[winner];
+res.innerHTML=`<div class="score">${r.emoji}</div>
+<div class="label">${r.title}</div><p class="desc">${r.desc}</p>
+<div>
+<a class="share-btn" href="https://twitter.com/intent/tweet?text=My+superpower+is+${encodeURIComponent(r.title)}+${r.emoji}+What's+yours?&url=${encodeURIComponent(location.href)}" target="_blank">𝕏 Share</a>
+<a class="share-btn wa" href="https://wa.me/?text=My+superpower+is+${encodeURIComponent(r.title)}+${r.emoji}+${encodeURIComponent(location.href)}" target="_blank">WhatsApp</a>
+</div>
+<p style="margin-top:20px"><a href="index.html" style="color:#fda085">← More Quizzes</a></p>`;
+}
+render();
+</script>
+</body>
+</html>

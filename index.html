@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuizVibe 🎯 - Fun Personality Quizzes</title>
+<meta name="description" content="Discover yourself with fun BuzzFeed-style quizzes! IQ tests, personality colors, career matches, and more.">
+<meta property="og:title" content="QuizVibe 🎯 - Fun Personality Quizzes">
+<meta property="og:description" content="Take fun quizzes and share your results!">
+<meta property="og:type" content="website">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0f0f1a;color:#fff;min-height:100vh}
+.hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
+.hero h1{font-size:3.5rem;margin-bottom:10px;text-shadow:2px 2px 4px rgba(0,0,0,.3)}
+.hero p{font-size:1.3rem;opacity:.9;max-width:600px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;padding:40px 24px;max-width:1200px;margin:0 auto}
+.card{border-radius:20px;padding:32px 28px;color:#fff;text-decoration:none;display:flex;flex-direction:column;gap:12px;transition:transform .2s,box-shadow .2s;cursor:pointer;min-height:200px;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.card .emoji{font-size:3rem}
+.card h2{font-size:1.5rem}
+.card p{opacity:.9;font-size:.95rem;line-height:1.5}
+.card .tag{display:inline-block;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;font-size:.8rem;width:fit-content}
+.c1{background:linear-gradient(135deg,#f093fb,#f5576c)}
+.c2{background:linear-gradient(135deg,#4facfe,#00f2fe)}
+.c3{background:linear-gradient(135deg,#43e97b,#38f9d7)}
+.c4{background:linear-gradient(135deg,#fa709a,#fee140)}
+.c5{background:linear-gradient(135deg,#a18cd1,#fbc2eb)}
+.c6{background:linear-gradient(135deg,#fccb90,#d57eeb)}
+.c7{background:linear-gradient(135deg,#f6d365,#fda085)}
+footer{text-align:center;padding:40px 20px;opacity:.6;font-size:.85rem}
+footer a{color:#a78bfa;text-decoration:none}
+.tip-btn{display:inline-block;margin-top:10px;background:rgba(255,255,255,.15);padding:8px 20px;border-radius:20px;color:#fff;text-decoration:none;font-size:.85rem;transition:background .2s}
+.tip-btn:hover{background:rgba(255,255,255,.25)}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>QuizVibe 🎯</h1>
+<p>Discover yourself with fun personality quizzes. Take a quiz, get your results, share with friends!</p>
+</div>
+<div class="grid">
+<a href="iq-test.html" class="card c1">
+<div class="emoji">🧠</div>
+<h2>Quick IQ Test</h2>
+<p>15 logic, pattern & number questions to estimate your IQ score. How smart are you really?</p>
+<span class="tag">15 questions · 5 min</span>
+</a>
+<a href="personality-color.html" class="card c2">
+<div class="emoji">🎨</div>
+<h2>Your Personality Color</h2>
+<p>Are you fiery Red, calm Blue, nurturing Green, or structured Gold? Find your true color!</p>
+<span class="tag">10 questions · 3 min</span>
+</a>
+<a href="career-match.html" class="card c3">
+<div class="emoji">💼</div>
+<h2>Career Match</h2>
+<p>Based on your interests and values, discover which career path suits you best.</p>
+<span class="tag">15 questions · 5 min</span>
+</a>
+<a href="travel.html" class="card c4">
+<div class="emoji">✈️</div>
+<h2>Where Should You Travel?</h2>
+<p>Answer 10 questions about your preferences and we'll pick your dream destination!</p>
+<span class="tag">10 questions · 3 min</span>
+</a>
+<a href="food.html" class="card c5">
+<div class="emoji">🍕</div>
+<h2>What Food Are You?</h2>
+<p>Your personality as a food! Are you pizza, sushi, or something totally unexpected?</p>
+<span class="tag">10 questions · 3 min</span>
+</a>
+<a href="decade.html" class="card c6">
+<div class="emoji">⏰</div>
+<h2>Which Decade Should You Live In?</h2>
+<p>50s, 70s, 90s, or 2000s? Your values and aesthetics reveal your true era.</p>
+<span class="tag">10 questions · 3 min</span>
+</a>
+<a href="superpower.html" class="card c7">
+<div class="emoji">⚡</div>
+<h2>What's Your Superpower?</h2>
+<p>Discover your hidden superpower based on your personality traits!</p>
+<span class="tag">10 questions · 3 min</span>
+</a>
+</div>
+<footer>
+<p>QuizVibe 🎯 — Made for fun, not science! Share your results with friends.</p>
+<p style="margin-top:8px"><a class="tip-btn" href="https://etherscan.io/address/0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823" target="_blank">☕ Buy me a coffee (ETH)</a></p>
+<p style="margin-top:12px">© 2026 QuizVibe. All quizzes are for entertainment only.</p>
+</footer>
+</body>
+</html>

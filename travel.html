@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Should You Travel? - QuizVibe 🎯</title>
+<meta name="description" content="Answer 10 fun questions and we'll pick your dream travel destination!">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f1a;color:#fff;min-height:100vh}
+.header{background:linear-gradient(135deg,#fa709a,#fee140);padding:24px;text-align:center}
+.header h1{font-size:2rem}
+.header a{color:#fff;text-decoration:none;opacity:.8;font-size:.9rem}
+.container{max-width:700px;margin:0 auto;padding:24px}
+.progress{background:rgba(255,255,255,.1);border-radius:20px;height:8px;margin-bottom:24px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,#fa709a,#fee140);transition:width .3s;border-radius:20px}
+.question-card{background:rgba(255,255,255,.05);border-radius:16px;padding:28px;margin-bottom:20px}
+.q-num{font-size:.85rem;opacity:.6;margin-bottom:8px}
+.q-text{font-size:1.2rem;margin-bottom:20px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 18px;cursor:pointer;transition:all .2s;font-size:1rem;color:#fff}
+.opt:hover{background:rgba(255,255,255,.15);border-color:rgba(250,112,154,.5)}
+.result{text-align:center;padding:40px 20px}
+.result .score{font-size:5rem}
+.result .label{font-size:1.8rem;margin:10px 0}
+.result .desc{opacity:.8;max-width:500px;margin:0 auto 20px;line-height:1.6}
+.share-btn{display:inline-block;background:#1da1f2;padding:12px 24px;border-radius:25px;color:#fff;text-decoration:none;font-weight:bold;margin:8px}
+.share-btn.wa{background:#25D366}
+.hidden{display:none}
+footer{text-align:center;padding:30px;opacity:.5;font-size:.8rem}
+footer a{color:#a78bfa;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header">
+<a href="index.html">← QuizVibe 🎯</a>
+<h1>✈️ Where Should You Travel?</h1>
+<p>10 questions to find your dream destination</p>
+</div>
+<div class="container">
+<div class="progress"><div class="progress-bar" id="prog"></div></div>
+<div id="quiz"></div>
+<div id="result" class="result hidden"></div>
+</div>
+<footer><p>For entertainment only · <a href="https://etherscan.io/address/0xEeD903787Cb86bcCc17777E5C7d10A4c2De43823">☕ Tip</a> · © 2026 QuizVibe</p></footer>
+<script>
+const questions=[
+{q:"Your ideal climate is:",o:["Hot and tropical 🌴","Mild and breezy 🌸","Cold and snowy ❄️","Warm and dry 🏜️"],t:["sea","eur","nor","adv"]},
+{q:"Pick a cuisine:",o:["Fresh seafood and coconut","Pasta, wine, and cheese","Smoked salmon and rye bread","Spicy street food"],t:["sea","eur","nor","adv"]},
+{q:"Your vacation vibe:",o:["Beach and relaxation","Culture and history","Nature and adventure","Off-the-beaten-path exploration"],t:["sea","eur","nor","adv"]},
+{q:"Pick an activity:",o:["Snorkeling in crystal water","Visiting a centuries-old cathedral","Hiking a glacier","Riding a camel through dunes"],t:["sea","eur","nor","adv"]},
+{q:"Your travel companion:",o:["A fun friend group","A romantic partner","Solo — just me and nature","A fellow adventurer"],t:["sea","eur","nor","adv"]},
+{q:"Which photo makes you happiest?",o:["Turquoise water and white sand","Cobblestone streets and cafés","Northern lights over mountains","Ancient ruins in a desert"],t:["sea","eur","nor","adv"]},
+{q:"Your ideal souvenir:",o:["A shell necklace","A vintage poster","A wool sweater","A handwoven rug"],t:["sea","eur","nor","adv"]},
+{q:"Pick a soundtrack for your trip:",o:["Reggae and island vibes","Classical or jazz","Ambient and atmospheric","World music and drums"],t:["sea","eur","nor","adv"]},
+{q:"What do you value most in travel?",o:["Total relaxation","Learning something new","Feeling alive and free","Experiencing something rare"],t:["sea","eur","nor","adv"]},
+{q:"Your dream accommodation:",o:["Overwater bungalow","Boutique hotel in old town","Cozy cabin in the woods","A tent under the stars"],t:["sea","eur","nor","adv"]}
+];
+let cur=0,answers=[];
+const quiz=document.getElementById('quiz'),prog=document.getElementById('prog'),res=document.getElementById('result');
+function render(){
+if(cur>=questions.length){showResult();return}
+const q=questions[cur];
+prog.style.width=((cur/questions.length)*100)+'%';
+quiz.innerHTML=`<div class="question-card">
+<div class="q-num">Question ${cur+1} of ${questions.length}</div>
+<div class="q-text">${q.q}</div>
+<div class="options">${q.o.map((o,i)=>`<div class="opt" onclick="pick('${q.t[i]}')">${o}</div>`).join('')}</div>
+</div>`;
+}
+function pick(t){answers.push(t);cur++;render()}
+function showResult(){
+quiz.classList.add('hidden');res.classList.remove('hidden');prog.style.width='100%';
+const counts={sea:0,eur:0,nor:0,adv:0};
+answers.forEach(a=>counts[a]++);
+const winner=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0][0];
+const results={
+sea:{emoji:"🇲🇻",title:"Maldives / Thailand / Bali",desc:"You belong on a tropical beach! Crystal-clear water, swaying palms, and not a care in the world. The Maldives, Thailand, or Bali would be your paradise. Pack your sunscreen and flip-flops!"},
+eur:{emoji:"🇮🇹",title:"Italy / France / Spain",desc:"You're a culture lover at heart! Wandering through ancient streets, sipping espresso at sidewalk cafés, and soaking in centuries of art and history. Europe is calling your name!"},
+nor:{emoji:"🇮🇸",title:"Iceland / Norway / New Zealand",desc:"You crave the raw beauty of nature! Glaciers, fjords, northern lights, and vast wilderness. Iceland, Norway, or New Zealand would fill your soul with wonder and adventure."},
+adv:{emoji:"🇲🇦",title:"Morocco / Peru / Jordan",desc:"You're a true explorer! Ancient ruins, vast deserts, vibrant markets, and experiences most people only dream of. Morocco, Peru, or Jordan would give you the adventure of a lifetime."}
+};
+const r=results[winner];
+res.innerHTML=`<div class="score">${r.emoji}</div>
+<div class="label">${r.title}</div><p class="desc">${r.desc}</p>
+<div>
+<a class="share-btn" href="https://twitter.com/intent/tweet?text=I+should+travel+to+${encodeURIComponent(r.title)}!+✈️+Find+your+destination+on+QuizVibe!&url=${encodeURIComponent(location.href)}" target="_blank">𝕏 Share</a>
+<a class="share-btn wa" href="https://wa.me/?text=I+should+travel+to+${encodeURIComponent(r.title)}!+✈️+${encodeURIComponent(location.href)}" target="_blank">WhatsApp</a>
+</div>
+<p style="margin-top:20px"><a href="index.html" style="color:#fa709a">← More Quizzes</a></p>`;
+}
+render();
+</script>
+</body>
+</html>
